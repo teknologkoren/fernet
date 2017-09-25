@@ -1,0 +1,22 @@
+{% extends "admin/admin.html" %}
+
+{% set active_sub = "update_contacts" %}
+
+{% set title="Update contacts" %}
+
+{% block body %}
+
+<main class="content">
+  <h1>Update contacts</h1>
+  <p>This will update the contact page on teknologkoren.se with the users that
+  has the relevant tags ("Ordförande", "Sekreterare", etc.). Continue?
+  </p>
+  <form method="POST">
+    {{ form.csrf_token }}
+    <div class="field">
+      <button>Do it</button>
+    </div>
+  </form>
+</main>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "admin/admin.html" %}
+
+{% set active_sub = "events" %}
+
+{% set title = "Events" %}
+
+{% block body %}
+<main class="content">
+  <h2>Events</h2>
+  <p><a href="{{ url_for('admin.new_event') }}">Create a new event</a></p>
+  <ul>
+    {% for event in events %}
+    <li>
+      <a href="{{ url_for('admin.edit_event', event_id=event.id, slug=event.slug) }}">{{ event.title }}{% if not event.published %} [Not published]{% endif %}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</main>
+{% endblock %}
+

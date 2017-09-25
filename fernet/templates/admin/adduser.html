@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% from "macros.html" import text_field, tag_form %}
+
+{% set title="Register" %}
+
+{% block body %}
+<main class="content">
+  <form method="POST">
+    {{ form.csrf_token }}
+    <h1>Add a user</h1>
+    {{ text_field(form.first_name) }}
+    {{ text_field(form.last_name) }}
+    {{ text_field(form.email) }}
+    {{ text_field(form.phone) }}
+    {{ tag_form(form.tags) }}
+    <div class="field">
+      <input type=submit value="Add user">
+    </div>
+  </form>
+</main>
+
+<script src="{{ url_for('static', filename='js/tag_filter.js') }}"></script>
+{% endblock %}

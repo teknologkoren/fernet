@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% from "macros.html" import tag_form %}
+
+{% set active_page = "members" %}
+
+{% set title = "Intranät" %}
+
+{% block body %}
+<main class="content">
+  <form method="POST">
+    {{ form.csrf_token }}
+
+    <h2>Columns</h2>
+    {{ tag_form(form.col_form, "col-form") }}
+
+    <h2>Rows (optional)</h2>
+    {{ tag_form(form.row_form, "row-form") }}
+
+    <div class="field">
+      <input type=submit value="Submit">
+    </div>
+  </form>
+</main>
+
+<script src="{{ url_for('static', filename='js/tag_filter.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% macro post_article(post, overview, classes) %}
+<article class="{{ classes }}">
+  <header>
+    <h1>
+      {% if overview %}
+      <a href="{{ url_for('blog.view_post', post_id=post.id, slug=post.slug) }}" class="inverted-link">{{ post.title }}</a>
+      {% else %}
+      {% if not post.published %}[Not published] {% endif %}{{ post.title }}
+      {% endif %}
+    </h1>
+    <time class="pubdate" datetime="{{ post.timestamp.strftime("%Y-%m-%dT%H:%M") }}">
+      {{ post.timestamp.strftime("%d %B %Y") }}
+    </time>
+  </header>
+  {% if post.image %}
+
+  {% set img_class='post-image' %}
+
+  {% if overview %}
+  {% set img_class = img_class + ' truncate' %}
+  {% endif %}
+
+  {{ img(post.image, 800, img_class) }}
+
+  {% endif %}
+
+  {{ post.content_to_html()|safe }}
+</article>
+{% endmacro %}
+
+{% macro event_article(event, overview, classes) %}
+<article class="{{ classes }}">
+  <h1>
+    {% if overview %}
+    <a href="{{ url_for('events.view_event', event_id=event.id, slug=event.slug) }}" class="inverted-link">{{ event.title }}</a>
+    {% else %}
+    {% if not event.published %}[Not published] {% endif %}{{ event.title }}
+    {% endif %}
+  </h1>
+  {% if event.image %}
+  <a class="event-image" href="{{ image_url(event.image) }}">
+    {{ img(event.image, 400) }}
+  </a>
+  {% endif %}
+  {{ event.content_to_html()|safe }}
+  <dl class="event-detail">
+    <dt>Tid:</dt>
+    <dd>
+      <time datetime="{{ event.start_time.strftime("%Y-%m-%dT%H:%M") }}">
+        {{ event.start_time.strftime("%d %B %Y, klockan %H:%M") }}
+      </time>
+    </dd>
+    <dt>Plats:</dt>
+    <dd><a target="_blank" href="https://www.google.se/maps/search/{{ event.location|urlencode }}/">{{ event.location }}</a></dd>
+  </dl>
+</article>
+{% endmacro %}
+
+{% macro pager(has_next, page) %}
+<nav class="pager">
+  {% if has_next %}
+  <a class="older inverted-link" href="{{ url_for_other_page(page + 1) }}">
+    &larr; Äldre</a>
+  {% endif %}
+  {% if page > 1 %}
+  <a class="newer inverted-link" href="{{ url_for_other_page(page - 1) }}">
+    Nyare &rarr;</a>
+  {% endif %}
+</nav>
+{% endmacro %}
+
+{% macro img(image, size, class) %}
+<img {% if class %}class="{{ class }}"{% endif %} src="{{ image_dest() }}img{{ size }}/{{ image }}" alt="">
+{% endmacro %}
+
+{% macro text_field(field, description=True) %}
+<div class="field">
+  {{ field.label }}
+  <div class="text-field">
+    <span>{{ field(*varargs, **kwargs) }}</span>
+    {% if description and field.description %}
+    <span class="field-description">
+      {{ field.description }}
+    </span>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro tag_form(form, id) %}
+<fieldset id="{{ id }}" class="tag-set">
+  {{ form.csrf_token }}
+
+  <legend>Tags</legend>
+
+  <input type="text" class="tag-filter" placeholder="Filter">
+
+  <div class="tags">
+    {% for field in form if "csrf_token" not in field.name %}
+    <div class="field">
+      {{ field }}
+      {{ field.label }}
+    </div>
+    {% endfor %}
+  </div>
+</fieldset>
+{% endmacro %}

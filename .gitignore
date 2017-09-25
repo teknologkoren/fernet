@@ -1,0 +1,11 @@
+__pycache__/
+venv/
+
+*.db
+*.sqlite
+
+instance/*
+
+fernet/static/uploads/*
+fernet/static/gen/*
+fernet/static/.webassets-cache*

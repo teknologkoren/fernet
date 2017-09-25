@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% from "macros.html" import text_field %}
+
+{% set title = "Sign in" %}
+
+{% block body %}
+<main class="content">
+  <form method="POST">
+    {{ form.csrf_token }}
+    <h1>Sign in</h1>
+
+    {{ text_field(form.email, description=False) }}
+
+    {{ text_field(form.password, description=False) }}
+
+    <p><a href="/reset/">Forgot password?</a></p>
+    <div class="field">
+      {{ form.remember }}
+      <label for="remember">Keep me signed in</label>
+    </div>
+    <div class="field">
+      <input type=submit value="Login">
+    </div>
+  </form>
+</main>
+{% endblock %}

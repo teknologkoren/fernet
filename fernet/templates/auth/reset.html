@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+
+{% from "macros.html" import text_field %}
+
+{% set title = "Reset password" %}
+
+{% block body %}
+<main class="content">
+  <form method="POST">
+    {{ form.csrf_token }}
+    <h1>Send reset password link</h1>
+
+    {{ text_field(form.email, description=False) }}
+
+    <div class="field">
+      <input type=submit value="Submit">
+    </div>
+  </form>
+</main>
+{% endblock %}

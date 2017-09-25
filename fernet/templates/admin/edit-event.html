@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% from "macros.html" import img, text_field, event_article %}
+
+{% set title = "Edit event" %}
+
+{% block head %}
+{{ super() }}
+<link href="{{ url_for('static', filename='css/lib/simplemde.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='fonts/fontawesome/css/font-awesome.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/lib/flatpickr.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main class="content">
+  {#
+  {% if event %}
+  <h2>Preview</h2>
+  {{ event_article(event, overview=True) }}
+  {% endif %}
+  #}
+
+  <h2>Edit event</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+
+    {{ text_field(form.title) }}
+
+    <div class="field">
+      {{ form.content }}
+    </div>
+
+    {{ text_field(form.start_time, placeholder='YYYY-MM-DD hh:mm') }}
+
+    {{ text_field(form.location) }}
+
+
+    <div class="field">
+      <p>Upload new image:</p>
+      {{ form.upload }}
+    </div>
+
+    <div class="field">
+      {{ form.published }}
+      {{ form.published.label }}
+    </div>
+
+    <div class="field">
+      <input type=submit value="Submit">
+    </div>
+  </form>
+  {% if event %}
+  <p>
+  <a id="remove" href="{{ url_for('admin.remove_event', event_id=event.id, slug=event.slug) }}">Remove</a>
+  </p>
+  {% endif %}
+</main>
+
+<script src="{{ url_for('static', filename='js/lib/simplemde.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lib/flatpickr.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/init_simplemde.js') }}"></script>
+<script src="{{ url_for('static', filename='js/init_flatpickr.js') }}"></script>
+
+{% if event %}
+<script src="{{ url_for('static', filename='js/confirm_remove_post.js') }}"></script>
+{% endif %}
+
+{% endblock %}
