@@ -87,9 +87,10 @@ def is_safe_url(target):
     Does so by checking that the url is still using http or https and
     and that the url is still our site.
     """
+    ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
     return test_url.scheme in ('http', 'https') and \
-        test_url.netloc in app.config['ALLOWED_HOSTS']
+        test_url.netloc == ref_url.netloc
 
 
 def get_redirect_target():

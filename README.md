@@ -1,14 +1,14 @@
 # FerNET
 
-## Installation in a virtualenv
-Clone and change directory to the repo, then run
+## Installation with Pipenv
+Make sure [Pipenv is installed](https://pipenv.readthedocs.io/en/latest/basics.html#installing-pipenv).
+Clone the change directory to the repo, then run
 ```
-python3 -m venv venv                # Create virtualenv "venv"
-. venv/bin/activate                 # Source the virtualenv
-pip install -r requirements.txt     # Install python requirements to venv
+pipenv install                      # Create virtualenv and install deps
+pipenv shell                        # Spawn a shell with our environment
 nodeenv -p -r npm-requirements.txt  # Install node.js requirements
 ```
-You can deactivate the virtualenv by running `deactivate`.
+You can exit out of the shell with `exit` or `^D`
 
 ## Create database
 Use `manage.py` to create the database. `python3 manage.py full_setup` will
