@@ -7,7 +7,7 @@ from fernet import app
 @app.errorhandler(404)
 def handle_error(e):
     try:
-        response = render_template(f'errors/{e.code}.html')
+        response = render_template('errors/{}.html'.format(e.code))
     except TemplateNotFound:
         response = e
     return response, e.code

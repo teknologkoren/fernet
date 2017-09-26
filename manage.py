@@ -1,7 +1,7 @@
 from flask_script import Manager, prompt, prompt_pass
 
-from teknologkoren_se import app, db
-from teknologkoren_se.models import Tag, User
+from fernet import app, db
+from fernet.models import Tag, User
 
 manager = Manager(app)
 
@@ -78,4 +78,4 @@ def full_setup():
 
 
 if __name__ == "__main__":
-manager.run()
+    manager.run()
