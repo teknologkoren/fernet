@@ -59,7 +59,7 @@ def full_edit_user(id):
 
         db.session.commit()
 
-        return redirect(url_for('.member', id=id))
+        return redirect(url_for('profile.member', id=id))
     else:
         forms.flash_errors(form)
 
