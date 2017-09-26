@@ -1,7 +1,7 @@
 from flask_script import Manager, prompt, prompt_pass
 
 from fernet import app, db
-from fernet.models import Tag, User
+from fernet.models import Tag, User, UserTag
 
 manager = Manager(app)
 
@@ -56,8 +56,12 @@ def create_webmaster():
         password = prompt_pass('Password')
         )
 
+    tag = Tag.query.filter_by(name='Webmaster').one()
 
-    user.tags.append(Tag.query.filter_by(name='Webmaster').one())
+    usertag = UserTag()
+    usertag.tag = tag
+
+    user.tags.append(usertag)
 
     db.session.add(user)
     db.session.commit()

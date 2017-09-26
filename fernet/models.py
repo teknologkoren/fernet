@@ -13,8 +13,6 @@ class UserTag(db.Model):
     Uses the 'association object pattern' to be able to save extra data
     in the associations.
     """
-    __tablename__ = 'user_tags'
-
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), primary_key=True)
 
