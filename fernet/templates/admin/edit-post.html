@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% from "macros.html" import img, text_field, post_article %}
+{% from "macros.html" import img, text_field %}
 
 {% set title = "Edit post" %}
 
@@ -28,6 +28,8 @@
     <div class="field">
       {{ form.content }}
     </div>
+
+    <p>Current image: {% if post.image %}</p><img class="image-preview" src={{ post.image_path }}>{% else %}None</p>{% endif %}
 
     <div class="field">
       <p>Upload new image:</p>

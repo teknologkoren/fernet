@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% from "macros.html" import img, text_field, event_article %}
+{% from "macros.html" import img, text_field %}
 
 {% set title = "Edit event" %}
 
@@ -34,6 +34,7 @@
 
     {{ text_field(form.location) }}
 
+    <p>Current image: {% if event.image %}</p><img class="image-preview" src={{ event.image_path }}>{% else %}None</p>{% endif %}
 
     <div class="field">
       <p>Upload new image:</p>
