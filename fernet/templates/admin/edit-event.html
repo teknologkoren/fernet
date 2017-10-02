@@ -13,13 +13,6 @@
 
 {% block body %}
 <main class="content">
-  {#
-  {% if event %}
-  <h2>Preview</h2>
-  {{ event_article(event, overview=True) }}
-  {% endif %}
-  #}
-
   <h2>Edit event</h2>
   <form method="POST" enctype="multipart/form-data">
     {{ form.csrf_token }}

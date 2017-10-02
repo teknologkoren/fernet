@@ -12,13 +12,6 @@
 
 {% block body %}
 <main class="content">
-  {#
-  {% if post %}
-  <h2>Preview</h2>
-  {{ post_article(post, overview=True) }}
-  {% endif %}
-  #}
-
   <h2>Edit post</h2>
   <form class="edit-post" method="POST" enctype="multipart/form-data">
     {{ form.csrf_token }}

@@ -109,12 +109,6 @@ def setup_flask_assets(app):
                 output='gen/common.css',
                 filters=['autoprefixer6', 'cleancss'],
                 ),
-
-            'intranet_css': Bundle(
-                'css/intranet.css',
-                output='gen/intranet.css',
-                filters=['autoprefixer6', 'cleancss'],
-                ),
             }
 
     assets = Environment(app)

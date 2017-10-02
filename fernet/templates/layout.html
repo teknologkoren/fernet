@@ -9,10 +9,3 @@
 {% if current_user.has_tag('Webmaster', 'PRoletär') %}
 {% do navigation_bar.append((url_for('admin.admin'), 'admin', 'Administration')) %}
 {% endif %}
-
-{% block head %}
-{{ super() }}
-{% assets 'intranet_css' %}
-<link rel="stylesheet" href="{{ ASSET_URL }}">
-{% endassets %}
-{% endblock %}
