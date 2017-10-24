@@ -20,7 +20,7 @@ def get_post(post_id):
     return r.json() if r.ok else abort(404)
 
 
-def new_post(title, content, published, image=None):
+def new_post(title, content_sv, content_en, published, image=None):
     """Upload a new post.
 
     `image` is not the actual image, it is the filename returned by an
@@ -28,7 +28,8 @@ def new_post(title, content, published, image=None):
     """
     data = {
         'title': title,
-        'content': content,
+        'content_sv': content_sv,
+        'content_en': content_en,
         'published': published,
         'image': image,
     }
@@ -36,7 +37,7 @@ def new_post(title, content, published, image=None):
     return r.json() if r.ok else False
 
 
-def update_post(post_id, title, content, published, image=None):
+def update_post(post_id, title, content_sv, content_en, published, image=None):
     """Update a post.
 
     `image` is not the actual image, it is the filename returned by an
@@ -44,7 +45,8 @@ def update_post(post_id, title, content, published, image=None):
     """
     data = {
             'title': title,
-            'content': content,
+            'content_sv': content_sv,
+            'content_en': content_en,
             'published': published,
             'image': image,
             }
@@ -77,7 +79,7 @@ def get_event(event_id):
     return d
 
 
-def new_event(title, content, published, start_time, location, image=None):
+def new_event(title, content_sv, content_en, published, start_time, location, image=None):
     """Upload a new event.
 
     `image` is not the actual image, it is the filename returned by an
@@ -85,7 +87,8 @@ def new_event(title, content, published, start_time, location, image=None):
     """
     data = {
         'title': title,
-        'content': content,
+        'content_sv': content_sv,
+        'content_en': content_en,
         'published': published,
         'start_time': start_time,
         'location': location,
@@ -97,7 +100,8 @@ def new_event(title, content, published, start_time, location, image=None):
 
 def update_event(event_id,
                  title,
-                 content,
+                 content_sv,
+                 content_en,
                  published,
                  start_time,
                  location,
@@ -109,7 +113,8 @@ def update_event(event_id,
     """
     data = {
         'title': title,
-        'content': content,
+        'content_sv': content_sv,
+        'content_en': content_en,
         'published': published,
         'start_time': start_time,
         'location': location,

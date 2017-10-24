@@ -19,15 +19,23 @@
 
     {{ text_field(form.title) }}
 
+    <h3>Swedish</h3>
     <div class="field">
-      {{ form.content }}
+      {{ form.content_sv }}
+    </div>
+
+    <h3>English (optional)</h3>
+    <div class="field">
+      {{ form.content_en }}
     </div>
 
     {{ text_field(form.start_time, placeholder='YYYY-MM-DD hh:mm') }}
 
     {{ text_field(form.location) }}
 
+    {% if event %}
     <p>Current image: {% if event.image %}</p><img class="image-preview" src={{ event.image_path }}>{% else %}None</p>{% endif %}
+    {% endif %}
 
     <div class="field">
       <p>Upload new image:</p>

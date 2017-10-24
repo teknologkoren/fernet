@@ -312,9 +312,11 @@ class UploadForm(FlaskForm):
 
 
 class EditPostForm(UploadForm):
-    content = fields.TextAreaField(validators=[
+    content_sv = fields.TextAreaField(validators=[
         validators.InputRequired()
         ])
+
+    content_en = fields.TextAreaField()
 
     title = fields.StringField('Title', validators=[
         validators.InputRequired()

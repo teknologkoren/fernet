@@ -132,7 +132,8 @@ def new_post():
             image = None
 
         post = teknologkoren_se.new_post(form.title.data,
-                                         form.content.data,
+                                         form.content_sv.data,
+                                         form.content_en.data,
                                          form.published.data,
                                          image)
 
@@ -170,7 +171,8 @@ def edit_post(post_id, slug=None):
 
         teknologkoren_se.update_post(post['id'],
                                      form.title.data,
-                                     form.content.data,
+                                     form.content_sv.data,
+                                     form.content_en.data,
                                      form.published.data,
                                      image)
 
@@ -207,7 +209,8 @@ def new_event():
         start_time = form.start_time.data.strftime('%Y-%m-%dT%H:%M')
 
         event = teknologkoren_se.new_event(form.title.data,
-                                           form.content.data,
+                                           form.content_sv.data,
+                                           form.content_en.data,
                                            form.published.data,
                                            start_time,
                                            form.location.data,
@@ -250,7 +253,8 @@ def edit_event(event_id, slug=None):
 
         teknologkoren_se.update_event(event['id'],
                                       form.title.data,
-                                      form.content.data,
+                                      form.content_sv.data,
+                                      form.content_en.data,
                                       form.published.data,
                                       start_time,
                                       form.location.data,
