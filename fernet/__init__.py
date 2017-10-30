@@ -11,12 +11,14 @@ locale.setlocale(locale.LC_TIME, "sv_SE.utf8")
 
 def init_views(app):
     from fernet.views import (
+            admin,
             auth,
             errors,
+            general,
             intranet,
-            profile,
+            library,
             members,
-            admin,
+            profile,
             )
 
     app.register_blueprint(auth.mod)
