@@ -16,7 +16,6 @@ def init_views(app):
             errors,
             general,
             intranet,
-            library,
             members,
             profile,
             )
