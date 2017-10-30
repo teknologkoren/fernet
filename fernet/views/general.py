@@ -1,4 +1,5 @@
 from flask import request, send_from_directory
+from teknologkoren_se import app
 
 @app.route('/robots.txt')
 def static_from_root():
