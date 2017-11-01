@@ -1,28 +1,31 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [packages]
 
 flask = "*"
-"flask-admin" = "*"
-"flask-assets" = "*"
-"flask-bcrypt" = "*"
-"flask-cors" = "*"
-"flask-login" = "*"
-"flask-migrate" = "*"
-"flask-script" = "*"
-"flask-sqlalchemy" = "*"
-"flask-uploads" = "*"
-"flask-wtf" = "*"
+flask-admin = "*"
+flask-assets = "*"
+flask-bcrypt = "*"
+flask-cors = "*"
+flask-login = "*"
+flask-migrate = "*"
+flask-script = "*"
+flask-sqlalchemy = "*"
+flask-uploads = "*"
+flask-wtf = "*"
 markdown = "*"
-"markdown-newtab" = "*"
+markdown-newtab = "*"
 nodeenv = "*"
 requests = "*"
 wtforms = "*"
 webassets = {git = "https://github.com/miracle2k/webassets.git", editable=true}
 gunicorn = "*"
+pytz = "*"
 
 
 [dev-packages]

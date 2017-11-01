@@ -1,4 +1,5 @@
 import datetime
+import pytz
 import requests
 from flask import abort
 from fernet import app
@@ -74,8 +75,14 @@ def get_event(event_id):
     """
     r = requests.get("{}/events/{}".format(API_URL, event_id), auth=AUTH)
     d = r.json()
-    d['start_time'] = datetime.datetime.strptime(d['start_time'],
-                                                 '%Y-%m-%dT%H:%M')
+
+    tz = pytz.timezone('Europe/Stockholm')
+    utc_start_time = datetime.datetime.strptime(d['start_time'],
+                                                '%Y-%m-%dT%H:%M')
+    local_time = pytz.utc.localize(utc_start_time, is_dst=None).astimezone(tz)
+
+    d['start_time'] = local_time
+
     return d
 
 
@@ -85,12 +92,17 @@ def new_event(title, content_sv, content_en, published, start_time, location, im
     `image` is not the actual image, it is the filename returned by an
     upload via `/api/images`.
     """
+    # User enters local time, convert to utc
+    tz = pytz.timezone('Europe/Stockholm')
+    utc_start_time = tz.localize(start_time, is_dst=None).astimezone(pytz.utc)
+    utc_start_time_str = utc_start_time.strftime('%Y-%m-%dT%H:%M')
+
     data = {
         'title': title,
         'content_sv': content_sv,
         'content_en': content_en,
         'published': published,
-        'start_time': start_time,
+        'start_time': utc_start_time_str,
         'location': location,
         'image': image,
     }
@@ -111,12 +123,17 @@ def update_event(event_id,
     `image` is not the actual image, it is the filename returned by an
     upload via `/api/images`.
     """
+    # User enters local time, convert to utc
+    tz = pytz.timezone('Europe/Stockholm')
+    utc_start_time = tz.localize(start_time, is_dst=None).astimezone(pytz.utc)
+    utc_start_time_str = utc_start_time.strftime('%Y-%m-%dT%H:%M')
+
     data = {
         'title': title,
         'content_sv': content_sv,
         'content_en': content_en,
         'published': published,
-        'start_time': start_time,
+        'start_time': utc_start_time_str,
         'location': location,
         'image': image,
     }
@@ -157,11 +174,9 @@ def new_contact(title, first_name, last_name, email, phone, weight):
         'weight': weight,
     }
     r = requests.post("{}/contact".format(API_URL), json=data, auth=AUTH)
-    print(r)
     return r.json()
 
 
 def delete_contact(contact_id):
     r = requests.delete("{}/contact/{}".format(API_URL, contact_id), auth=AUTH)
-    print(r)
     return True if r.ok else False

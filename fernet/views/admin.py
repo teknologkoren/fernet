@@ -206,13 +206,11 @@ def new_event():
         else:
             image = None
 
-        start_time = form.start_time.data.strftime('%Y-%m-%dT%H:%M')
-
         event = teknologkoren_se.new_event(form.title.data,
                                            form.content_sv.data,
                                            form.content_en.data,
                                            form.published.data,
-                                           start_time,
+                                           form.start_time.data,
                                            form.location.data,
                                            image)
 
@@ -249,14 +247,12 @@ def edit_event(event_id, slug=None):
         else:
             image = event['image']
 
-        start_time = form.start_time.data.strftime('%Y-%m-%dT%H:%M')
-
         teknologkoren_se.update_event(event['id'],
                                       form.title.data,
                                       form.content_sv.data,
                                       form.content_en.data,
                                       form.published.data,
-                                      start_time,
+                                      form.start_time.data,
                                       form.location.data,
                                       image)
 
