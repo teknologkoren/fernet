@@ -1,11 +1,106 @@
 {% extends "base.html" %}
 
 {% set navigation_bar = [
-(url_for('intranet.index'), 'intranet', 'Intranät'),
-(url_for('members.voices'), 'members', 'Medlemmar'),
-(url_for('profile.member', id=current_user.id), 'member', 'Profil'),
+  {
+    'href': url_for('intranet.index'),
+    'id': 'intranet',
+    'caption': 'Intranät'
+  },
+  {
+    'href': url_for('profile.member', id=current_user.id),
+    'id': 'member',
+    'caption': 'Profil'
+  },
+  {
+    'href': url_for('members.voices'),
+    'id': 'members',
+    'caption': 'Medlemmar',
+    'sub-nav': [
+      {
+        'href': url_for('members.filter_members'),
+        'id': 'filter',
+        'caption': 'Filter members'
+      },
+      {
+        'href': url_for('members.member_matrix',
+                        columns=['Sånggrupp 1', 'Sånggrupp 2', 'Sånggrupp 3'],
+                        rows=['Sopran 1', 'Sopran 2', 'Alt 1', 'Alt 2', 'Tenor 1', 'Tenor 2', 'Bas 1', 'Bas 2']
+                        ),
+        'id': 'groups',
+        'caption': 'Singing groups'
+      },
+    ]
+  },
 ] %}
 
 {% if current_user.has_tag('Webmaster', 'PRoletär') %}
-{% do navigation_bar.append((url_for('admin.admin'), 'admin', 'Administration')) %}
+{% do navigation_bar.append(
+  {
+    'href': url_for('admin.admin'),
+    'id': 'admin',
+    'caption': 'Administration',
+    'sub-nav': [
+      {
+        'href': url_for('admin.view_posts'),
+        'id': 'posts',
+        'caption': 'Posts'
+      },
+      {
+       'href': url_for('admin.view_events'),
+       'id': 'events',
+       'caption': 'Events'
+      },
+      {
+       'href': url_for('admin.update_contacts'),
+       'id': 'update_contacts',
+       'caption': 'Update contacts'
+      },
+      {
+       'href': url_for('library.index'),
+       'id': 'library',
+       'caption': 'Score library'
+      },
+    ]
+  }
+) %}
 {% endif %}
+
+{% block base_body %}
+<div id="container">
+  <header class="pageheader">
+    <img src="{{ url_for('static', filename='images/logo.svg') }}">
+    <h1>
+      FerNET
+    </h1>
+  </header>
+  <nav class="nav">
+    <ul>
+      {% for item in navigation_bar %}
+      <li class="nowrap">
+        {% if item['id'] == active_page %}
+        <a href="{{ item['href']|e }}" class="active">{{ item['caption']|e }}</a>
+          {% if 'sub-nav' in item %}
+          <nav class="sub-nav">
+            <ul>
+              {% for sub_item in item['sub-nav'] %}
+              <li>
+                <a href="{{ sub_item['href']|e }}" class="{% if sub_item['id'] == active_sub %}active{% else %}inverted-link{% endif %}">{{ sub_item['caption']|e }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </nav>
+          {% endif %}
+        {% else %}
+        <a href="{{ item['href']|e }}">{{ item['caption']|e }}</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <main class="content">
+    {% include 'components/flashes.html' %}
+    {% block main %}{% endblock %}
+  </main>
+  {% block body %}{% endblock %}
+</div>
+{% endblock %}

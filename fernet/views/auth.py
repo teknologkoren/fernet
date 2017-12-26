@@ -44,7 +44,7 @@ def logout():
     """Logout user (if logged in) and redirect to main page."""
     if current_user.is_authenticated:
         logout_user()
-    return redirect(url_for('blog.index'))
+    return redirect(url_for('auth.login'))
 
 
 def verify_email(user, email):
@@ -79,7 +79,7 @@ def verify_token(token):
         user_id, email = ts.loads(token, salt='verify-email', max_age=900)
     except SignatureExpired:
         flash("Sorry, the link has expired. Please try again.", 'error')
-        return redirect(url_for('blog.index'))
+        return redirect(url_for('auth.login'))
     except:
         abort(404)
 
@@ -88,7 +88,7 @@ def verify_token(token):
     db.session.commit()
 
     flash("{} is now verified!".format(email), 'success')
-    return redirect(url_for('blog.index'))
+    return redirect(url_for('auth.login'))
 
 
 @mod.route('/reset/', methods=['GET', 'POST'])

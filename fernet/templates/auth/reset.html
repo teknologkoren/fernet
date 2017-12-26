@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "auth/auth_layout.html" %}
 
 {% from "macros.html" import text_field %}
 
@@ -6,7 +6,7 @@
 
 {% block body %}
 <main class="content">
-  <form method="POST">
+  <form class="reset-password" method="POST">
     {{ form.csrf_token }}
     <h1>Send reset password link</h1>
 

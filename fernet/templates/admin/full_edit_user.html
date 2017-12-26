@@ -10,29 +10,29 @@
 
 {% set title = "Intranät" %}
 
+{% block main %}
+<h2>{{ user.first_name }} {{ user.last_name }}</h2>
+<form method="POST" enctype="multipart/form-data">
+  {{ form.csrf_token }}
+
+  {{ text_field(form.first_name) }}
+
+  {{ text_field(form.last_name) }}
+
+  {{ text_field(form.email) }}
+
+  {{ text_field(form.phone) }}
+
+  {{ tag_form(form.tags, "tag-filter") }}
+
+  <div class="field">
+    <input type=submit value="Submit">
+  </div>
+
+  <a href="{{ url_for('profile.member', id=user.id) }}">Cancel</a>
+</form>
+{% endblock %}
+
 {% block body %}
-<main class="content">
-  <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-  <form method="POST" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-
-    {{ text_field(form.first_name) }}
-
-    {{ text_field(form.last_name) }}
-
-    {{ text_field(form.email) }}
-
-    {{ text_field(form.phone) }}
-
-    {{ tag_form(form.tags, "tag-filter") }}
-
-    <div class="field">
-      <input type=submit value="Submit">
-    </div>
-
-    <a href="{{ url_for('profile.member', id=user.id) }}">Cancel</a>
-  </form>
-</main>
-
 <script src="{{ url_for('static', filename='js/tag_filter.js') }}"></script>
 {% endblock %}

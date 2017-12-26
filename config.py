@@ -21,8 +21,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 # Flask-Uploads
-UPLOADS_DEFAULT_DEST = 'teknologkoren_se/static/uploads/'
-UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/uploads/'
+UPLOADS_DEFAULT_DEST = 'fernet/static/uploads/'
+UPLOADS_DEFAULT_URL = 'http://localhost:5001/static/uploads/'
 
 
 # Email settings

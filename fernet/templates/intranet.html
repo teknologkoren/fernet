@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
+
 {% set active_page = "intranet" %}
 {% set title = "Intranät" %}
-{% block body %}
-<main class="content">
-  <p>Intranät - {{ current_user.email }}</p>
-  <p><a href="{{ url_for('auth.logout') }}">Logout</a></p>
-</div>
+
+{% block main %}
+<p>Intranät - {{ current_user.email }}</p>
+<p><a href="{{ url_for('auth.logout') }}">Logout</a></p>
 {% endblock %}

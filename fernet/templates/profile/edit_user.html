@@ -5,24 +5,22 @@
 
 {% set title = "Intranät" %}
 
-{% block body %}
-<main class="content">
-  <h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+{% block main %}
+<h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
 
-  <a href="{{ url_for('.change_password') }}">Change password</a>
+<a href="{{ url_for('.change_password') }}">Change password</a>
 
-  <form method="POST" enctype="multipart/form-data">
-    {{ form.csrf_token }}
+<form method="POST" enctype="multipart/form-data">
+  {{ form.csrf_token }}
 
-    {{ text_field(form.email) }}
+  {{ text_field(form.email) }}
 
-    {{ text_field(form.phone) }}
+  {{ text_field(form.phone) }}
 
-    <div class="field">
-      <input type=submit value="Submit">
-    </div>
+  <div class="field">
+    <input type=submit value="Submit">
+  </div>
 
-    <a href="{{ url_for('.member', id=current_user.id) }}">Cancel</a>
-  </form>
-</main>
+  <a href="{{ url_for('.member', id=current_user.id) }}">Cancel</a>
+</form>
 {% endblock %}

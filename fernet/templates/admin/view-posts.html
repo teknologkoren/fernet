@@ -4,16 +4,14 @@
 
 {% set title = "Posts" %}
 
-{% block body %}
-<main class="content">
-  <h2>Posts</h2>
-  <p><a href="{{ url_for('admin.new_post') }}">Create a new post</a></p>
-  <ul>
-    {% for post in posts %}
-    <li>
-      <a href="{{ url_for('admin.edit_post', post_id=post.id, slug=post.slug) }}">{{ post.title }}{% if not post.published %} [Not published]{% endif %}</a>
-    </li>
-    {% endfor %}
-  </ul>
-</main>
+{% block main %}
+<h2>Posts</h2>
+<p><a href="{{ url_for('admin.new_post') }}">Create a new post</a></p>
+<ul>
+  {% for post in posts %}
+  <li>
+    <a href="{{ url_for('admin.edit_post', post_id=post.id, slug=post.slug) }}">{{ post.title }}{% if not post.published %} [Not published]{% endif %}</a>
+  </li>
+  {% endfor %}
+</ul>
 {% endblock %}

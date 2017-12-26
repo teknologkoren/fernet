@@ -4,26 +4,15 @@
 
 {% set title = "Medlemmar" %}
 
-{% set subnav = [
-(url_for('.filter_members'), 'filter', 'Filter members'),
-(url_for(
-    '.member_matrix',
-    columns=['Sånggrupp 1', 'Sånggrupp 2', 'Sånggrupp 3'],
-    rows=['Sopran 1', 'Sopran 2', 'Alt 1', 'Alt 2', 'Tenor 1', 'Tenor 2', 'Bas 1', 'Bas 2']),
-  'groups', 'Singing groups'),
-] %}
-
-{% block body %}
-<main class="content">
-  <ul class="member-list">
-    {% for tag in tag_list %}
-    <li><h2>{{ tag }}</h2>
-      <ul>
-        {% for member in tag_dict[tag] %}
-        <li><a href="{{ url_for('profile.member', id=member.id) }}">{{ member.first_name }} {{ member.last_name }}</a></li>
-        {% endfor %}
-      </ul>
-    </li>
-    {% endfor %}
-</main>
+{% block main %}
+<ul class="member-list">
+  {% for tag in tag_list %}
+  <li><h2>{{ tag }}</h2>
+    <ul>
+      {% for member in tag_dict[tag] %}
+      <li><a href="{{ url_for('profile.member', id=member.id) }}">{{ member.first_name }} {{ member.last_name }}</a></li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% endfor %}
 {% endblock %}

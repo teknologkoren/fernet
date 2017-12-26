@@ -3,16 +3,8 @@
 {% set active_page = "admin" %}
 {% set title = "Administration" %}
 
-{% set subnav = [
-(url_for('admin.view_posts'), 'posts', 'Posts'),
-(url_for('admin.view_events'), 'events', 'Events'),
-(url_for('admin.update_contacts'), 'update_contacts', 'Update contacts'),
-] %}
-
-{% block body %}
-<main class="content">
-  <p>
-    Välkommen till adminsidorna!
-  </p>
-</main>
+{% block main %}
+<p>
+  Välkommen till adminsidorna!
+</p>
 {% endblock %}

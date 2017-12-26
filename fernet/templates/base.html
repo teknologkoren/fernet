@@ -4,7 +4,7 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }} | Kongl. Teknologkören</title>
+    <title>{{ title }} | FerNET </title>
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     {% assets 'common_css' %}
     <link rel="stylesheet" href="{{ ASSET_URL }}">
@@ -12,57 +12,6 @@
     {% endblock %}
   </head>
   <body>
-    {% set active_page = active_page %}
-    <div id="container">
-      <header class="pageheader">
-        <div class="logo">
-          <a href="{{ url_for('intranet.index') }}" class="inverted-link">
-            <img src="{{ url_for('static', filename='images/logo.svg') }}">
-            <div class="logo-text">
-              <h1>
-                FerNET
-              </h1>
-              <p class="tagline">I takt med webben sedan 2016</p>
-            </div>
-          </a>
-        </div>
-        <nav class="nav">
-          <ul>
-            {% for href, id, caption in navigation_bar %}
-            <li class="nowrap">
-              <a href="{{ href|e }}" class="{% if id == active_page %}active{% else %}inverted-link{% endif %}">{{ caption|e }}</a>
-            </li>
-            {% endfor %}
-          </ul>
-        </nav>
-      </header>
-      {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-      <ul class="flashes">
-        {% for category, message in messages %}
-        <li class="flash {{ category }}">{{ message|safe }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      {% endwith %}
-      {% if cover_image %}
-      <img src="{{ cover_image }}" class="cover-image" alt="">
-      {% endif %}
-      {% if subnav %}
-      <nav class="sub-nav">
-        <ul>
-          {% for href, id, caption in subnav %}
-          <li>
-            <a href="{{ href|e }}" class="{% if id == active_sub %}active{% else %}inverted-link{% endif %}">{{ caption|e }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </nav>
-      {% endif %}
-      {% block body %}{% endblock %}
-    </div>
-    <footer>
-      <img id="footer-img" src="{{ url_for('static', filename='images/logo_grey.svg') }}">
-    </footer>
+    {% block base_body %}{% endblock %}
   </body>
 </html>

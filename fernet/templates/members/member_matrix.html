@@ -4,29 +4,27 @@
 
 {% set title = "Medlemmar" %}
 
-{% block body %}
-<main class="content">
-  <div class="table member-matrix">
-    <table>
-      <tr>
-        <th></th>
-        {% for column in columns %}
-        <th>{{ column }}</th>
-        {% endfor %}
-      </tr>
-      {% for row in rows %}
-      <tr>
-        <th>{{ row }}</th>
-        {% for column in columns %}
-        <td>
-          {% for member in tag_dict[column][row] %}
-          <a class="matrix-data" href="{{ url_for('profile.member', id=member.id) }}">{{ member.first_name }} {{ member.last_name }}</a>
-          {% endfor %}
-        </td>
-        {% endfor %}
-      </tr>
+{% block main %}
+<div class="table member-matrix">
+  <table>
+    <tr>
+      <th></th>
+      {% for column in columns %}
+      <th>{{ column }}</th>
       {% endfor %}
-    </table>
-  </div>
-</main>
+    </tr>
+    {% for row in rows %}
+    <tr>
+      <th>{{ row }}</th>
+      {% for column in columns %}
+      <td>
+        {% for member in tag_dict[column][row] %}
+        <a class="matrix-data" href="{{ url_for('profile.member', id=member.id) }}">{{ member.first_name }} {{ member.last_name }}</a>
+        {% endfor %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 {% endblock %}

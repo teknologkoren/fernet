@@ -10,52 +10,51 @@
 <link href="{{ url_for('static', filename='fonts/fontawesome/css/font-awesome.min.css') }}" rel="stylesheet">
 {% endblock %}
 
+{% block main %}
+<h2>Edit post</h2>
+<form class="edit-post" method="POST" enctype="multipart/form-data">
+  {{ form.csrf_token }}
+
+  {{ text_field(form.title) }}
+
+  <h3>Swedish</h3>
+  <div class="field">
+    {{ form.content_sv }}
+  </div>
+
+  <h3>English (optional)</h3>
+  <div class="field">
+    {{ form.content_en }}
+  </div>
+
+  <p>Current image: {% if post.image %}</p><img class="image-preview" src={{ post.image_path }}>{% else %}None</p>{% endif %}
+
+  <div class="field">
+    <p>Upload new image:</p>
+    {{ form.upload }}
+  </div>
+
+  <div class="field">
+    {{ form.published }}
+    {{ form.published.label }}
+  </div>
+
+  <div class="field">
+    <input type=submit value="Submit">
+  </div>
+</form>
+{% if post %}
+<p>
+<a id="remove" href="{{ url_for('admin.remove_post', post_id=post.id, slug=post.slug) }}">Remove</a>
+</p>
+{% endif %}
+{% endblock %}
+
 {% block body %}
-<main class="content">
-  <h2>Edit post</h2>
-  <form class="edit-post" method="POST" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-
-    {{ text_field(form.title) }}
-
-    <h3>Swedish</h3>
-    <div class="field">
-      {{ form.content_sv }}
-    </div>
-
-    <h3>English (optional)</h3>
-    <div class="field">
-      {{ form.content_en }}
-    </div>
-
-    <p>Current image: {% if post.image %}</p><img class="image-preview" src={{ post.image_path }}>{% else %}None</p>{% endif %}
-
-    <div class="field">
-      <p>Upload new image:</p>
-      {{ form.upload }}
-    </div>
-
-    <div class="field">
-      {{ form.published }}
-      {{ form.published.label }}
-    </div>
-
-    <div class="field">
-      <input type=submit value="Submit">
-    </div>
-  </form>
-  {% if post %}
-  <p>
-  <a id="remove" href="{{ url_for('admin.remove_post', post_id=post.id, slug=post.slug) }}">Remove</a>
-  </p>
-  {% endif %}
-</main>
-
 <script src="{{ url_for('static', filename='js/lib/simplemde.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/init_simplemde.js') }}"></script>
 
 {% if post %}
 <script src="{{ url_for('static', filename='js/confirm_remove_post.js') }}"></script>
 {% endif %}
-
 {% endblock %}

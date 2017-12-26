@@ -8,16 +8,14 @@
 
 {% set title = "Intranät" %}
 
-{% block body %}
-<main class="content">
-  <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-  <p>Email: <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
-  <p>Number: <a href="tel:{{ user.phone }}">{{ user.phone }}</a></p>
-  <p>Tags: {% for tag in tags %}{{ tag.name }}{% if loop.last %}{% else %}, {% endif %}{% endfor %}</p>
-  {% if current_user.has_tag('Webmaster') %}
-  <p><a href="{{ url_for('admin.full_edit_user', id=user.id) }}">Edit</a></p>
-  {% elif user.id == current_user.id %}
-  <p><a href="{{ url_for('.edit_user') }}">Edit</a></p>
-  {% endif %}
-</main>
+{% block main %}
+<h2>{{ user.first_name }} {{ user.last_name }}</h2>
+<p>Email: <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+<p>Number: <a href="tel:{{ user.phone }}">{{ user.phone }}</a></p>
+<p>Tags: {% for tag in tags %}{{ tag.name }}{% if loop.last %}{% else %}, {% endif %}{% endfor %}</p>
+{% if current_user.has_tag('Webmaster') %}
+<p><a href="{{ url_for('admin.full_edit_user', id=user.id) }}">Edit</a></p>
+{% elif user.id == current_user.id %}
+<p><a href="{{ url_for('.edit_user') }}">Edit</a></p>
+{% endif %}
 {% endblock %}

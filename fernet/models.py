@@ -46,9 +46,9 @@ class User(UserMixin, db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(254), unique=True)
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
-    phone = db.Column(db.String(20), nullable=True)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    phone = db.Column(db.String(20))
 
     # Do not change the following directly, use User.password
     _password = db.Column(db.String(128))
@@ -134,7 +134,7 @@ class User(UserMixin, db.Model):
 class Tag(db.Model):
     """Representation of a tag."""
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), unique=True)
+    name = db.Column(db.String(30), unique=True, nullable=False)
 
     users = db.relationship('UserTag', back_populates='tag')
 

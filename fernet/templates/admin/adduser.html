@@ -4,7 +4,7 @@
 
 {% set title="Register" %}
 
-{% block body %}
+{% block main %}
 <main class="content">
   <form method="POST">
     {{ form.csrf_token }}
@@ -19,6 +19,8 @@
     </div>
   </form>
 </main>
+{% endblock %}
 
+{% block body %}
 <script src="{{ url_for('static', filename='js/tag_filter.js') }}"></script>
 {% endblock %}
