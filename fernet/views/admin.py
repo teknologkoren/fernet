@@ -1,4 +1,5 @@
 import datetime
+from email.utils import parsedate_to_datetime
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
 from werkzeug.datastructures import CombinedMultiDict
@@ -105,6 +106,7 @@ def adduser():
 def view_posts():
     """Show links to all post's edit mode."""
     posts = teknologkoren_se.get_all_posts()
+    posts.sort(key=lambda x: parsedate_to_datetime(x['timestamp']), reverse=True)
 
     return render_template('admin/view-posts.html', posts=posts)
 
@@ -114,6 +116,7 @@ def view_posts():
 def view_events():
     """Show links to all event's edit mode."""
     events = teknologkoren_se.get_all_events()
+    events.sort(key=lambda x: parsedate_to_datetime(x['timestamp']), reverse=True)
 
     return render_template('admin/view-events.html', events=events)
 
