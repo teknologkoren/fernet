@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% set active_page = "admin" %}
+{% set active_sub = "library" %}
+{% set title = "Score library" %}
+
+{% block main %}
+<h1>Score library</h1>
+<p><a href="{{ url_for('library.add_score') }}">Add a score</a></p>
+<div class="table score-table">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Place</th>
+      <th>Amount</th>
+      <th>Composer</th>
+      <th>Lyricist</th>
+      <th>Arrangement</th>
+      <th>Comments</th>
+    </tr>
+    {% for score in scores %}
+    <tr>
+      <td class="score-name"><a href="{{ url_for('library.edit_score', score_id=score.id) }}">{{ score.name }}</a></td>
+      <td>{{ score.place }}</td>
+      <td>{{ score.amount or '' }}</td>
+      <td>{{ score.composer }}</td>
+      <td>{{ score.lyricist }}</td>
+      <td>{{ score.arrangement }}</td>
+      <td class="score-comment">{{ score.comments }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

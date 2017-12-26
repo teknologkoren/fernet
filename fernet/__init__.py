@@ -16,6 +16,7 @@ def init_views(app):
             errors,
             general,
             intranet,
+            library,
             members,
             profile,
             )
@@ -25,6 +26,7 @@ def init_views(app):
     app.register_blueprint(profile.mod)
     app.register_blueprint(members.mod)
     app.register_blueprint(admin.mod)
+    app.register_blueprint(library.mod)
 
 
 def setup_login_manager(app):

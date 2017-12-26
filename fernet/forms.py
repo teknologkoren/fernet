@@ -336,3 +336,17 @@ class EditEventForm(EditPostForm):
 
 class UpdateContactsForm(FlaskForm):
     pass
+
+
+class EditScoreForm(FlaskForm):
+    name = fields.StringField('Score name', validators=[
+        validators.InputRequired()
+        ])
+    composer = fields.StringField('Composer')
+    lyricist = fields.StringField('Lyricist')
+    arrangement = fields.StringField('Arrangement')
+    comments = fields.TextAreaField('Comments')
+    place = fields.StringField('Place')
+    amount = fields.IntegerField('Amount', validators=[
+        validators.Optional()
+        ])

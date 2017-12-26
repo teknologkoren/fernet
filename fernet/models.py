@@ -141,3 +141,22 @@ class Tag(db.Model):
     def __str__(self):
         """String representation of the tag."""
         return self.name
+
+
+class ScoreCollection(db.Model):
+    """A collection of scores."""
+    id = db.Column(db.Integer, primary_key=True)
+    scores = db.relationship('Score', backref='collection')
+
+
+class Score(db.Model):
+    """A score/sheet music."""
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    composer = db.Column(db.String(50))
+    lyricist = db.Column(db.String(50))
+    arrangement = db.Column(db.String(50))
+    amount = db.Column(db.Integer)
+    place = db.Column(db.String(50))
+    comments = db.Column(db.Text())
+    collection_id = db.Column(db.Integer, db.ForeignKey('score_collection.id'))

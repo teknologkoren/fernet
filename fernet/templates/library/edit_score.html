@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% set active_page = "admin" %}
+{% set active_sub = "library" %}
+{% set title = "Add or edit a score" %}
+
+{% from "macros.html" import text_field %}
+
+{% block main %}
+<form method="POST">
+  <h1>Add/edit a score</h1>
+
+  {{ form.csrf_token }}
+  {{ text_field(form.name) }}
+  {{ text_field(form.composer) }}
+  {{ text_field(form.lyricist) }}
+  {{ text_field(form.arrangement) }}
+  {{ text_field(form.comments) }}
+  {{ text_field(form.place) }}
+  {{ text_field(form.amount) }}
+
+  <div class="field">
+    <button>Submit score</button>
+  </div>
+</form>
+{% endblock %}
