@@ -92,8 +92,6 @@ nav .active {
 
 .content {
     margin: 0 1rem;
-    display: flex;
-    flex-direction: column;
 }
 
 .tag-set {
@@ -160,10 +158,10 @@ footer {
     max-height: 20em;
 }
 
-.login,
-.reset-password,
-.reset-token {
-    align-self: center;
+.auth-wrap {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
 }
 
 .flashes {
