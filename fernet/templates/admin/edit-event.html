@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block main %}
+
 <h2>Edit event</h2>
 <form method="POST" enctype="multipart/form-data">
   {{ form.csrf_token }}
@@ -28,6 +29,8 @@
     <label for="content_en">English (optional)</label>
     {{ form.content_en }}
   </div>
+
+  {% include 'components/markdown-key.html' %}
 
   {{ text_field(form.start_time, placeholder='YYYY-MM-DD hh:mm') }}
 
@@ -55,14 +58,12 @@
 </p>
 {% endif %}
 
-<h2>Markdown syntax</h2>
-{% include 'components/markdown-key.html' %}
-
 {% endblock %}
 
 {% block body %}
 <script src="{{ url_for('static', filename='js/lib/flatpickr.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/init_flatpickr.js') }}"></script>
+<script src="{{ url_for('static', filename='js/toggle_markdown_key.js') }}"></script>
 
 {% if event %}
 <script src="{{ url_for('static', filename='js/confirm_remove_post.js') }}"></script>

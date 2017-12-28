@@ -149,6 +149,7 @@ footer {
     max-width: 40rem;
     white-space: nowrap;
     font-size: .8em;
+    margin: 1rem 0;
 }
 
 .markdown-key h1, h2, h3 {

@@ -24,6 +24,8 @@
     {{ form.content_en }}
   </div>
 
+  {% include 'components/markdown-key.html' %}
+
   <p>Current image: {% if post and post.image %}</p><img class="image-preview" src={{ post.image_path }}>{% else %}None</p>{% endif %}
 
   <div class="field">
@@ -46,13 +48,11 @@
 </p>
 {% endif %}
 
-<h2>Markdown syntax</h2>
-{% include 'components/markdown-key.html' %}
-
 {% endblock %}
 
 {% block body %}
 {% if post %}
 <script src="{{ url_for('static', filename='js/confirm_remove_post.js') }}"></script>
+<script src="{{ url_for('static', filename='js/toggle_markdown_key.js') }}"></script>
 {% endif %}
 {% endblock %}
