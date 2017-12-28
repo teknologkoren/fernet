@@ -2,12 +2,13 @@
 
 {% from "macros.html" import img, text_field %}
 
+{% set active_page = "admin" %}
+{% set active_sub = "events" %}
+
 {% set title = "Edit event" %}
 
 {% block head %}
 {{ super() }}
-<link href="{{ url_for('static', filename='css/lib/simplemde.min.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='fonts/fontawesome/css/font-awesome.min.css') }}" rel="stylesheet">
 <link href="{{ url_for('static', filename='css/lib/flatpickr.min.css') }}" rel="stylesheet">
 {% endblock %}
 
@@ -18,13 +19,13 @@
 
   {{ text_field(form.title) }}
 
-  <h3>Swedish</h3>
-  <div class="field">
+  <div class="field post-content">
+    <label for="content_sv">Swedish</label>
     {{ form.content_sv }}
   </div>
 
-  <h3>English (optional)</h3>
-  <div class="field">
+  <div class="field post-content">
+    <label for="content_en">English (optional)</label>
     {{ form.content_en }}
   </div>
 
@@ -32,12 +33,10 @@
 
   {{ text_field(form.location) }}
 
-  {% if event %}
-  <p>Current image: {% if event.image %}</p><img class="image-preview" src={{ event.image_path }}>{% else %}None</p>{% endif %}
-  {% endif %}
+  <p>Current image: {% if event and event.image %}</p><img class="image-preview" src={{ event.image_path }}>{% else %}None</p>{% endif %}
 
   <div class="field">
-    <p>Upload new image:</p>
+    <label for="upload">Upload new image:</label>
     {{ form.upload }}
   </div>
 
@@ -52,15 +51,17 @@
 </form>
 {% if event %}
 <p>
-<a id="remove" href="{{ url_for('admin.remove_event', event_id=event.id, slug=event.slug) }}">Remove</a>
+<a id="remove" href="{{ url_for('admin.remove_event', event_id=event.id, slug=event.slug) }}">Remove event</a>
 </p>
 {% endif %}
+
+<h2>Markdown syntax</h2>
+{% include 'components/markdown-key.html' %}
+
 {% endblock %}
 
 {% block body %}
-<script src="{{ url_for('static', filename='js/lib/simplemde.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/lib/flatpickr.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/init_simplemde.js') }}"></script>
 <script src="{{ url_for('static', filename='js/init_flatpickr.js') }}"></script>
 
 {% if event %}

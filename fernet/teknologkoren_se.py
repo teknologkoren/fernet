@@ -30,10 +30,11 @@ def new_post(title, content_sv, content_en, published, image=None):
     data = {
         'title': title,
         'content_sv': content_sv,
-        'content_en': content_en,
+        'content_en': content_en or None,
         'published': published,
         'image': image,
     }
+    print(data)
     r = requests.post("{}/posts".format(API_URL), json=data, auth=AUTH)
     return r.json() if r.ok else False
 
@@ -47,7 +48,7 @@ def update_post(post_id, title, content_sv, content_en, published, image=None):
     data = {
             'title': title,
             'content_sv': content_sv,
-            'content_en': content_en,
+            'content_en': content_en or None,
             'published': published,
             'image': image,
             }
