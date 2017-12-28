@@ -157,10 +157,31 @@ footer {
     margin: .5rem 0;
 }
 
-.field,
 .tag-set {
     max-width: 40em;
+}
+
+.field,
+.tag-set {
     margin: 1rem 0;
+}
+
+.field {
+    display: block;
+    margin: 20px 0;
+}
+
+.text-field {
+    display: flex;
+}
+
+.field > label:first-child {
+    display: block;
+}
+
+.field-description {
+    padding-left: 10px;
+    font-size: 0.85em;
 }
 
 .image-preview {
@@ -203,24 +224,6 @@ footer {
     color: #6C1600;
 }
 
-.field {
-    display: block;
-    margin: 20px 0;
-}
-
-.text-field {
-    display: flex;
-}
-
-.field > label:first-child {
-    display: block;
-}
-
-.field-description {
-    padding-left: 10px;
-    font-size: 0.85em;
-}
-
 .member-list, .member-list ul {
     list-style: none;
 }
@@ -260,7 +263,6 @@ footer {
 }
 
 .post-content textarea {
-    max-width: unset;
     max-width: 100%;
     height: 15em;
     width: 30em;
