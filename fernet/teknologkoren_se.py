@@ -34,7 +34,6 @@ def new_post(title, content_sv, content_en, published, image=None):
         'published': published,
         'image': image,
     }
-    print(data)
     r = requests.post("{}/posts".format(API_URL), json=data, auth=AUTH)
     return r.json() if r.ok else False
 
