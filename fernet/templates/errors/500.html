@@ -2,8 +2,11 @@
 
 {% set title = "500 - Serverfel" %}
 
-{% block body %}
-<h1>500 - Serverfel</h1>
-<p>Hoppsan, något gick fel. Vi ska sjunga en serenad för vår server med hopp
-om att den bestämmer sig för att samarbeta.</p>
+{% block base_body %}
+<main class="content">
+  <h1>500 - Internal server error</h1>
+  <p>Oops, something broke on the server end. Please try again.
+    If the problem persists, please contact the webmaster.
+  </p>
+</main>
 {% endblock %}
