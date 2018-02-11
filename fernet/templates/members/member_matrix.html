@@ -5,6 +5,9 @@
 {% set title = "Medlemmar" %}
 
 {% block main %}
+{% if mandatory %}
+<p>All members are: {{ ', '.join(mandatory) }}</p>
+{% endif %}
 <div class="table member-matrix">
   <table>
     <tr>

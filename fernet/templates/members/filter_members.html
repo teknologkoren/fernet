@@ -12,11 +12,17 @@
 <a href="{{ url_for(
               'members.member_matrix',
               columns=['Sånggrupp 1', 'Sånggrupp 2', 'Sånggrupp 3'],
-              rows=['Sopran 1', 'Sopran 2', 'Alt 1', 'Alt 2', 'Tenor 1', 'Tenor 2', 'Bas 1', 'Bas 2']
+              rows=['Sopran 1', 'Sopran 2', 'Alt 1', 'Alt 2', 'Tenor 1', 'Tenor 2', 'Bas 1', 'Bas 2'],
+              mandatory=['Aktiv']
               ) }}">Singing groups</a></p>
 
 <form method="POST">
   {{ form.csrf_token }}
+
+  <div class="field">
+    {{ form.only_active() }}
+    {{ form.only_active.label() }}
+  </div>
 
   <h2>Columns</h2>
   {{ tag_form(form.col_form, "col-form") }}
