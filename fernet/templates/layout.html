@@ -61,9 +61,7 @@
 <div id="container">
   <header class="pageheader">
     <img src="{{ url_for('static', filename='images/logo.svg') }}">
-    <h1>
-      FerNET
-    </h1>
+    <h1>FerNET</h1>
   </header>
   <nav class="nav">
     <ul>
@@ -89,9 +87,11 @@
       {% endfor %}
     </ul>
   </nav>
-  <main class="content">
+  <main>
     {% include 'components/flashes.html' %}
-    {% block main %}{% endblock %}
+    <div class="content">
+      {% block main %}{% endblock %}
+    </div>
   </main>
   {% block body %}{% endblock %}
 </div>

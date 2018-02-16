@@ -40,8 +40,7 @@ body {
     text-align: center;
     height: 3rem;
     padding: .5rem;
-    background-color: #222;
-    color: #316bb1;
+    color: #000;
 }
 
 .pageheader img {
@@ -58,14 +57,15 @@ body {
 
 .nav {
     text-align: center;
-    background-color: #222;
+    padding-bottom: 1rem;
 }
 
-.nav a {
-    color: #eee;
+a {
+    color: #000;
 }
 
 .nav ul {
+    margin: 0 auto;
     list-style: none;
     margin: 0 1.5rem;
     padding: 0;
@@ -83,13 +83,14 @@ nav .active {
 .sub-nav {
     margin: 0 auto;
     margin-top: .5rem;
-    border: 1px solid #555;
+    border: 1px solid #ccc;
     border-radius: 7px;
-    background-color: #3c3c3c;
 }
 
-.content {
+main {
     margin: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .tag-set {
@@ -271,30 +272,29 @@ footer {
     #container {
         grid-template: "head head" 3rem
                        "nav  main" 1fr
-                       / 13rem 1fr;
+                       / 15rem 1fr;
     }
 
     .pageheader {
         grid-area: head;
         height: 100%;
         text-align: left;
-        padding-left: 1rem;
+        padding-left: 1.5rem;
     }
 
     .nav {
         grid-area: nav;
         text-align: left;
         height: 100%;
-        border-right: 1px solid #ddd;
     }
 
     .flashes {
         grid-area: main;
     }
 
-    .content {
+    main {
         grid-area: main;
-        margin: 1rem;
+        margin: 1rem 2rem;
     }
 }
 
