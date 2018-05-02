@@ -1,9 +1,9 @@
-import datetime
 from email.utils import parsedate_to_datetime
-from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import current_user, login_required
+from flask import (Blueprint, render_template, redirect, url_for, request,
+                   flash)
+from flask_login import login_required
 from werkzeug.datastructures import CombinedMultiDict
-from fernet import app, db, images, forms, teknologkoren_se
+from fernet import app, db, forms, teknologkoren_se
 from fernet.views.auth import verify_email
 from fernet.models import User, Tag
 from fernet.util import tag_required
@@ -105,8 +105,13 @@ def adduser():
 @tag_required('Webmaster', 'PRoletär')
 def view_posts():
     """Show links to all post's edit mode."""
-    posts = teknologkoren_se.get_all_posts()
-    posts.sort(key=lambda x: parsedate_to_datetime(x['timestamp']), reverse=True)
+    r = teknologkoren_se.get_all_posts()
+    if r:
+        posts = r.json()
+        posts.sort(key=lambda x: parsedate_to_datetime(x['timestamp']),
+                   reverse=True)
+    else:
+        posts = {}
 
     return render_template('admin/view-posts.html', posts=posts)
 
@@ -115,8 +120,13 @@ def view_posts():
 @tag_required('Webmaster', 'PRoletär')
 def view_events():
     """Show links to all event's edit mode."""
-    events = teknologkoren_se.get_all_events()
-    events.sort(key=lambda x: parsedate_to_datetime(x['timestamp']), reverse=True)
+    r = teknologkoren_se.get_all_events()
+    if r:
+        events = r.json()
+        events.sort(key=lambda x: parsedate_to_datetime(x['timestamp']),
+                    reverse=True)
+    else:
+        events = {}
 
     return render_template('admin/view-events.html', events=events)
 
@@ -129,16 +139,29 @@ def new_post():
 
     if form.validate_on_submit():
         if form.upload.data:
-            upload = teknologkoren_se.upload_image(form.upload.data)
+            r = teknologkoren_se.upload_image(form.upload.data)
+            if r:
+                upload = r.json()
+            else:
+                return render_template('admin/edit-post.html', form=form)
+
             image = upload['filename']
+
         else:
             image = None
 
-        post = teknologkoren_se.new_post(form.title.data,
-                                         form.content_sv.data,
-                                         form.content_en.data,
-                                         form.published.data,
-                                         image)
+        r = teknologkoren_se.new_post(form.title.data,
+                                      form.content_sv.data,
+                                      form.content_en.data,
+                                      form.published.data,
+                                      image)
+
+        if not r:
+            return render_template('admin/edit-post.html', form=form)
+
+        post = r.json()
+
+        flash("Post saved successfully!", 'success')
 
         return redirect(url_for('.edit_post',
                                 post_id=post['id'],
@@ -155,7 +178,12 @@ def new_post():
 @tag_required('Webmaster', 'PRoletär')
 def edit_post(post_id, slug=None):
     """Edit an existing post."""
-    post = teknologkoren_se.get_post(post_id)
+    r = teknologkoren_se.get_post(post_id)
+
+    if not r:
+        return redirect(url_for('.view_posts'))
+
+    post = r.json()
 
     if slug != post['slug']:
         return redirect(url_for('.edit_post',
@@ -167,17 +195,29 @@ def edit_post(post_id, slug=None):
 
     if form.validate_on_submit():
         if form.upload.data:
-            upload = teknologkoren_se.upload_image(form.upload.data)
+            r = teknologkoren_se.upload_image(form.upload.data)
+            if r:
+                upload = r.json()
+            else:
+                return render_template('admin/edit-post.html', form=form)
+
             image = upload['filename']
         else:
             image = post['image']
 
-        teknologkoren_se.update_post(post['id'],
-                                     form.title.data,
-                                     form.content_sv.data,
-                                     form.content_en.data,
-                                     form.published.data,
-                                     image)
+        r = teknologkoren_se.update_post(post['id'],
+                                         form.title.data,
+                                         form.content_sv.data,
+                                         form.content_en.data,
+                                         form.published.data,
+                                         image)
+
+        if not r:
+            return render_template('admin/edit-post.html', form=form)
+
+        post = r.json()
+
+        flash("Post saved successfully!", 'success')
 
     else:
         forms.flash_errors(form)
@@ -204,18 +244,30 @@ def new_event():
 
     if form.validate_on_submit():
         if form.upload.data:
-            upload = teknologkoren_se.upload_image(form.upload.data)
+            r = teknologkoren_se.upload_image(form.upload.data)
+            if r:
+                upload = r.json()
+            else:
+                return render_template('admin/edit-post.html', form=form)
+
             image = upload['filename']
         else:
             image = None
 
-        event = teknologkoren_se.new_event(form.title.data,
-                                           form.content_sv.data,
-                                           form.content_en.data,
-                                           form.published.data,
-                                           form.start_time.data,
-                                           form.location.data,
-                                           image)
+        r = teknologkoren_se.new_event(form.title.data,
+                                       form.content_sv.data,
+                                       form.content_en.data,
+                                       form.published.data,
+                                       form.start_time.data,
+                                       form.location.data,
+                                       image)
+
+        if not r:
+            return render_template('admin/edit-event.html', form=form)
+
+        event = r.json()
+
+        flash("Event saved successfully!", 'success')
 
         return redirect(url_for('.edit_event',
                                 event_id=event['id'],
@@ -235,7 +287,7 @@ def edit_event(event_id, slug=None):
     event = teknologkoren_se.get_event(event_id)
 
     if slug != event['slug']:
-        return redirect(url_for('.edit_post',
+        return redirect(url_for('.edit_event',
                                 event_id=event['id'],
                                 slug=event['slug']))
 
@@ -245,19 +297,31 @@ def edit_event(event_id, slug=None):
 
     if form.validate_on_submit():
         if form.upload.data:
-            upload = teknologkoren_se.upload_image(form.upload.data)
+            r = teknologkoren_se.upload_image(form.upload.data)
+            if r:
+                upload = r.json()
+            else:
+                return render_template('admin/edit-post.html', form=form)
+
             image = upload['filename']
         else:
             image = event['image']
 
-        teknologkoren_se.update_event(event['id'],
-                                      form.title.data,
-                                      form.content_sv.data,
-                                      form.content_en.data,
-                                      form.published.data,
-                                      form.start_time.data,
-                                      form.location.data,
-                                      image)
+        r = teknologkoren_se.update_event(event['id'],
+                                          form.title.data,
+                                          form.content_sv.data,
+                                          form.content_en.data,
+                                          form.published.data,
+                                          form.start_time.data,
+                                          form.location.data,
+                                          image)
+
+        if not r:
+            return render_template('admin/edit-event.html', form=form)
+
+        event = r.json()
+
+        flash("Event saved successfully!", 'success')
 
     else:
         forms.flash_errors(form)
@@ -302,14 +366,28 @@ def update_contacts():
                     'weight': tag[2],
                     })
 
+        success = True
+
         remote_contacts = teknologkoren_se.get_all_contacts()
 
-        [teknologkoren_se.delete_contact(contact['id'])
-            for contact in remote_contacts]
+        if remote_contacts:
+            for contact in remote_contacts.json():
+                r = teknologkoren_se.delete_contact(contact['id'])
+                if not r:
+                    success = False
+                    break
 
-        [teknologkoren_se.new_contact(**contact)
-            for contact in new_contacts]
+            for contact in new_contacts:
+                r = teknologkoren_se.new_contact(**contact)
+                if not r:
+                    success = False
+                    break
+        else:
+            success = False
 
-        flash('Contacts updated!', 'success')
+        if success:
+            flash('Contacts updated!', 'success')
+        else:
+            flash('Something went wrong while updating contacts...', 'error')
 
     return render_template('admin/update-contacts.html', form=form)

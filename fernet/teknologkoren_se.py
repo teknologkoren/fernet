@@ -1,7 +1,7 @@
 import datetime
 import pytz
 import requests
-from flask import abort
+from flask import flash
 from fernet import app
 
 API_URL = app.config['TEKNOLOGKORENSE_API_URL']
@@ -11,14 +11,65 @@ AUTH = requests.auth.HTTPBasicAuth(
         )
 
 
+def make_request(requests_func, url, data=None, files=None):
+    """Wrap a requests function.
+
+    Returns response if connection was successful and response is ok, flashes
+    an error and returns None otherwise.
+    """
+    try:
+        r = requests_func(url, json=data, files=files, auth=AUTH)
+    except requests.exceptions.ConnectionError:
+        flash('Failed to connect to teknologkoren.se.', 'error')
+        return None
+    except requests.exceptions.Timeout:
+        flash('Connection to teknologkoren.se timed out.', 'error')
+        return None
+
+    if not r.ok:
+        if r.status_code == 404:
+            flash('Whatever you were trying access does not exist.', 'error')
+            return None
+
+        else:
+            flash('Something went wrong, try again or ask webmaster for help.',
+                  'error')
+
+            # log error
+            print(('API error: request = {}, url = {}, data = {}, files = {}'
+                   ', status_code = {}, response = {}'
+                   ).format(requests_func, url, data, files, r.status_code,
+                            r.json()))
+
+            return None
+
+    return r
+
+
+def make_get(url):
+    r = make_request(requests.get, url)
+
+    return r
+
+
+def make_post(url, data=None, files=None):
+    return make_request(requests.post, url, data, files)
+
+
+def make_put(url, data=None, files=None):
+    return make_request(requests.put, url, data, files)
+
+
+def make_delete(url):
+    return make_request(requests.delete, url)
+
+
 def get_all_posts():
-    r = requests.get("{}/posts".format(API_URL), auth=AUTH)
-    return r.json()
+    return make_get("{}/posts".format(API_URL))
 
 
 def get_post(post_id):
-    r = requests.get("{}/posts/{}".format(API_URL, post_id), auth=AUTH)
-    return r.json() if r.ok else abort(404)
+    return make_get("{}/posts/{}".format(API_URL, post_id))
 
 
 def new_post(title, content_sv, content_en, published, image=None):
@@ -34,8 +85,7 @@ def new_post(title, content_sv, content_en, published, image=None):
         'published': published,
         'image': image,
     }
-    r = requests.post("{}/posts".format(API_URL), json=data, auth=AUTH)
-    return r.json() if r.ok else False
+    return make_post("{}/posts".format(API_URL), data)
 
 
 def update_post(post_id, title, content_sv, content_en, published, image=None):
@@ -51,20 +101,15 @@ def update_post(post_id, title, content_sv, content_en, published, image=None):
             'published': published,
             'image': image,
             }
-    r = requests.put("{}/posts/{}".format(API_URL, post_id),
-                     json=data,
-                     auth=AUTH)
-    return r.json()
+    return make_put("{}/posts/{}".format(API_URL, post_id), data)
 
 
 def delete_post(post_id):
-    r = requests.delete("{}/posts/{}".format(API_URL, post_id), auth=AUTH)
-    return True if r.ok else False
+    return make_delete("{}/posts/{}".format(API_URL, post_id))
 
 
 def get_all_events():
-    r = requests.get("{}/events".format(API_URL), auth=AUTH)
-    return r.json()
+    return make_get("{}/events".format(API_URL))
 
 
 def get_event(event_id):
@@ -73,7 +118,11 @@ def get_event(event_id):
     Returns modified response, converting iso-format date string to
     datetime.
     """
-    r = requests.get("{}/events/{}".format(API_URL, event_id), auth=AUTH)
+    r = make_get("{}/events/{}".format(API_URL, event_id))
+
+    if not r:
+        return r
+
     d = r.json()
 
     tz = pytz.timezone('Europe/Stockholm')
@@ -86,7 +135,8 @@ def get_event(event_id):
     return d
 
 
-def new_event(title, content_sv, content_en, published, start_time, location, image=None):
+def new_event(title, content_sv, content_en, published, start_time, location,
+              image=None):
     """Upload a new event.
 
     `image` is not the actual image, it is the filename returned by an
@@ -100,24 +150,17 @@ def new_event(title, content_sv, content_en, published, start_time, location, im
     data = {
         'title': title,
         'content_sv': content_sv,
-        'content_en': content_en,
+        'content_en': content_en or None,
         'published': published,
         'start_time': utc_start_time_str,
         'location': location,
         'image': image,
     }
-    r = requests.post("{}/events".format(API_URL), json=data, auth=AUTH)
-    return r.json() if r.ok else False
+    return make_post("{}/events".format(API_URL), data)
 
 
-def update_event(event_id,
-                 title,
-                 content_sv,
-                 content_en,
-                 published,
-                 start_time,
-                 location,
-                 image=None):
+def update_event(event_id, title, content_sv, content_en, published,
+                 start_time, location, image=None):
     """Update an event.
 
     `image` is not the actual image, it is the filename returned by an
@@ -131,37 +174,30 @@ def update_event(event_id,
     data = {
         'title': title,
         'content_sv': content_sv,
-        'content_en': content_en,
+        'content_en': content_en or None,
         'published': published,
         'start_time': utc_start_time_str,
         'location': location,
         'image': image,
     }
-    r = requests.put("{}/events/{}".format(API_URL, event_id),
-                     json=data,
-                     auth=AUTH)
-    return r.json() if r.ok else False
+    return make_put("{}/events/{}".format(API_URL, event_id), data)
 
 
 def delete_event(event_id):
-    r = requests.delete("{}/events/{}".format(API_URL, event_id), auth=AUTH)
-    return True if r.ok else False
+    return make_delete("{}/events/{}".format(API_URL, event_id))
 
 
 def upload_image(image):
     files = {'image': (image.filename, image.read())}
-    r = requests.post("{}/images".format(API_URL), files=files, auth=AUTH)
-    return r.json()
+    return make_post("{}/images".format(API_URL), files=files)
 
 
 def get_all_contacts():
-    r = requests.get("{}/contact".format(API_URL), auth=AUTH)
-    return r.json()
+    return make_get("{}/contact".format(API_URL))
 
 
 def get_contact(contact_id):
-    r = requests.get("{}/contact/{}".format(API_URL), auth=AUTH)
-    return r.json()
+    return make_get("{}/contact/{}".format(API_URL))
 
 
 def new_contact(title, first_name, last_name, email, phone, weight):
@@ -173,10 +209,8 @@ def new_contact(title, first_name, last_name, email, phone, weight):
         'phone': phone,
         'weight': weight,
     }
-    r = requests.post("{}/contact".format(API_URL), json=data, auth=AUTH)
-    return r.json()
+    return make_post("{}/contact".format(API_URL), data)
 
 
 def delete_contact(contact_id):
-    r = requests.delete("{}/contact/{}".format(API_URL, contact_id), auth=AUTH)
-    return True if r.ok else False
+    return make_delete("{}/contact/{}".format(API_URL, contact_id))

@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template
 from jinja2.exceptions import TemplateNotFound
 from fernet import app
 
