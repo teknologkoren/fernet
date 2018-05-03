@@ -26,8 +26,18 @@
   </div>
 
   <div class="field post-content">
+    <label for="readmore_sv">Swedish "Read more" (optional)</label>
+    {{ form.readmore_sv }}
+  </div>
+
+  <div class="field post-content">
     <label for="content_en">English (optional)</label>
     {{ form.content_en }}
+  </div>
+
+  <div class="field post-content">
+    <label for="readmore_en">English "Read more" (optional)</label>
+    {{ form.readmore_en }}
   </div>
 
   {% include 'components/markdown-key.html' %}

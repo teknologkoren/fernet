@@ -318,6 +318,9 @@ class EditPostForm(UploadForm):
 
     content_en = fields.TextAreaField()
 
+    readmore_sv = fields.TextAreaField()
+    readmore_en = fields.TextAreaField()
+
     title = fields.StringField('Title', validators=[
         validators.InputRequired()
         ])

@@ -72,7 +72,8 @@ def get_post(post_id):
     return make_get("{}/posts/{}".format(API_URL, post_id))
 
 
-def new_post(title, content_sv, content_en, published, image=None):
+def new_post(title, content_sv, content_en, readmore_sv, readmore_en,
+             published, image=None):
     """Upload a new post.
 
     `image` is not the actual image, it is the filename returned by an
@@ -82,25 +83,30 @@ def new_post(title, content_sv, content_en, published, image=None):
         'title': title,
         'content_sv': content_sv,
         'content_en': content_en or None,
+        'readmore_sv': readmore_sv or None,
+        'readmore_en': readmore_en or None,
         'published': published,
         'image': image,
     }
     return make_post("{}/posts".format(API_URL), data)
 
 
-def update_post(post_id, title, content_sv, content_en, published, image=None):
+def update_post(post_id, title, content_sv, content_en, readmore_sv,
+                readmore_en, published, image=None):
     """Update a post.
 
     `image` is not the actual image, it is the filename returned by an
     upload via `/api/images`.
     """
     data = {
-            'title': title,
-            'content_sv': content_sv,
-            'content_en': content_en or None,
-            'published': published,
-            'image': image,
-            }
+        'title': title,
+        'content_sv': content_sv,
+        'content_en': content_en or None,
+        'readmore_sv': readmore_sv or None,
+        'readmore_en': readmore_en or None,
+        'published': published,
+        'image': image,
+    }
     return make_put("{}/posts/{}".format(API_URL, post_id), data)
 
 
@@ -135,8 +141,8 @@ def get_event(event_id):
     return d
 
 
-def new_event(title, content_sv, content_en, published, start_time, location,
-              image=None):
+def new_event(title, content_sv, content_en, readmore_sv, readmore_en,
+              published, start_time, location, image=None):
     """Upload a new event.
 
     `image` is not the actual image, it is the filename returned by an
@@ -151,6 +157,8 @@ def new_event(title, content_sv, content_en, published, start_time, location,
         'title': title,
         'content_sv': content_sv,
         'content_en': content_en or None,
+        'readmore_sv': readmore_sv or None,
+        'readmore_en': readmore_en or None,
         'published': published,
         'start_time': utc_start_time_str,
         'location': location,
@@ -159,8 +167,8 @@ def new_event(title, content_sv, content_en, published, start_time, location,
     return make_post("{}/events".format(API_URL), data)
 
 
-def update_event(event_id, title, content_sv, content_en, published,
-                 start_time, location, image=None):
+def update_event(event_id, title, content_sv, content_en, readmore_sv,
+                 readmore_en, published, start_time, location, image=None):
     """Update an event.
 
     `image` is not the actual image, it is the filename returned by an
@@ -175,6 +183,8 @@ def update_event(event_id, title, content_sv, content_en, published,
         'title': title,
         'content_sv': content_sv,
         'content_en': content_en or None,
+        'readmore_sv': readmore_sv or None,
+        'readmore_en': readmore_en or None,
         'published': published,
         'start_time': utc_start_time_str,
         'location': location,

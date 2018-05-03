@@ -153,6 +153,8 @@ def new_post():
         r = teknologkoren_se.new_post(form.title.data,
                                       form.content_sv.data,
                                       form.content_en.data,
+                                      form.readmore_sv.data,
+                                      form.readmore_en.data,
                                       form.published.data,
                                       image)
 
@@ -209,6 +211,8 @@ def edit_post(post_id, slug=None):
                                          form.title.data,
                                          form.content_sv.data,
                                          form.content_en.data,
+                                         form.readmore_sv.data,
+                                         form.readmore_en.data,
                                          form.published.data,
                                          image)
 
@@ -257,6 +261,8 @@ def new_event():
         r = teknologkoren_se.new_event(form.title.data,
                                        form.content_sv.data,
                                        form.content_en.data,
+                                       form.readmore_sv.data,
+                                       form.readmore_en.data,
                                        form.published.data,
                                        form.start_time.data,
                                        form.location.data,
@@ -311,6 +317,8 @@ def edit_event(event_id, slug=None):
                                           form.title.data,
                                           form.content_sv.data,
                                           form.content_en.data,
+                                          form.readmore_sv.data,
+                                          form.readmore_en.data,
                                           form.published.data,
                                           form.start_time.data,
                                           form.location.data,
