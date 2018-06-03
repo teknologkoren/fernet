@@ -10,6 +10,18 @@ nodeenv -p -r node-requirements.txt # Install node.js requirements
 ```
 You can exit out of the shell with `exit` or `^D`
 
+## Create the instance directory
+Create a directory called `instance` in the root. This directory is for files
+that are not to be commited to git. Copy `config.py` to `instance/`.
+`config.py` in root is read first, and `instance/config.py` after that,
+overwriting values if already set. Think of `config.py` in root as good
+defaults for the project and `instance/config.py` as your custom settings.
+
+The database file location is set in `config.py` relative to where `config.py`
+is, copying `config.py` to `instance/` (and thereby the database location
+setting) will therefore result in the database being created in `instance/`,
+which is desirable as it will then be ignored by git.
+
 ## Create database
 Use `manage.py` to create the database. `python3 manage.py full_setup` will
 create the database, some useful tags and a user with the Webmaster tag.

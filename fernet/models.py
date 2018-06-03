@@ -72,7 +72,7 @@ class User(UserMixin, db.Model):
         return self._password
 
     @password.setter
-    def _set_password(self, plaintext):
+    def password(self, plaintext):
         """Generate and save password hash, update password timestamp."""
         self._password = bcrypt.generate_password_hash(plaintext)
 
